@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:weather_challenge/data/models/weather_model.dart';
 
 class WeatherCard extends StatelessWidget {
-  WeatherCard({
+  const WeatherCard({
     Key? key,
     required this.weather,
     required this.onTap,
-    required this.isCelsius,
   }) : super(key: key);
 
   final WeatherModel weather;
-  void Function() onTap;
-  final bool isCelsius;
+  final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {

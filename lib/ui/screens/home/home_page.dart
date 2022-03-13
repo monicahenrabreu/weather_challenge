@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_challenge/bloc/weather_bloc/bloc.dart';
 import 'package:weather_challenge/data/models/weather_model.dart';
-import 'package:weather_challenge/ui/widgets/weather_carousel.dart';
-import 'package:weather_challenge/ui/widgets/weather_details_card.dart';
+import 'package:weather_challenge/ui/widgets/weather_error_widget.dart';
+import 'package:weather_challenge/ui/widgets/weather_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,90 +13,43 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late WeatherModel currentWeather;
-
-  final List<WeatherModel> weatherList = [
-    WeatherModel(
-      weatherState: 'Light Rain',
-      weatherStateImage: 'lr',
-      dateAbbr: 'Fri',
-      date: 'Friday',
-      minTemp: 9,
-      maxTemp: 16,
-      currentTemp: 14,
-      windSpeed: 5,
-      airPressure: 1008,
-      humidity: 11,
-    ),
-    WeatherModel(
-      weatherState: 'Light Rain',
-      weatherStateImage: 'lr',
-      dateAbbr: 'Sat',
-      date: 'Saturday',
-      minTemp: 10,
-      maxTemp: 17,
-      currentTemp: 15,
-      windSpeed: 3,
-      airPressure: 1001,
-      humidity: 9,
-    ),
-    WeatherModel(
-      weatherState: 'Heavy Rain',
-      weatherStateImage: 'lr',
-      dateAbbr: 'Sun',
-      date: 'Sunday',
-      minTemp: 8,
-      maxTemp: 14,
-      currentTemp: 10,
-      windSpeed: 3,
-      airPressure: 1006,
-      humidity: 13,
-    ),
-    WeatherModel(
-      weatherState: 'Showers',
-      weatherStateImage: 'lr',
-      dateAbbr: 'Mon',
-      date: 'Monday',
-      minTemp: 12,
-      maxTemp: 15,
-      currentTemp: 13,
-      windSpeed: 5,
-      airPressure: 1002,
-      humidity: 9,
-    )
-  ];
-
   @override
   void initState() {
-    currentWeather = weatherList.first;
+    context.read<WeatherBloc>().add(GetWeatherByLocationEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: LayoutBuilder(builder:
-              (BuildContext context, BoxConstraints viewportConstraints) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                WeatherDetailsCard(weather: currentWeather),
-                WeatherCarousel(
-                    weatherList: weatherList.sublist(1), onTap: _onTap),
-              ],
-            );
-          }),
-        ),
+      body: BlocBuilder<WeatherBloc, WeatherState>(
+        builder: (context, state) {
+          if (state is WeatherLoadingState || state is WeatherInitialState) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is WeatherErrorState) {
+            return WeatherErrorWidget(onRetry: _onRetry);
+          }
+          WeatherState weatherState = state.copyWith();
+          return WeatherWidget(
+            currentWeather: weatherState.currentWeather!,
+            weatherList: weatherState.weatherList!,
+            onRefresh: _onRefresh,
+            onTap: _onTap,
+          );
+        },
       ),
     );
   }
 
   void _onTap(WeatherModel weather) {
-    setState(() {
-      currentWeather = weather;
-    });
+    context.read<WeatherBloc>().add(SwitchCurrentWeatherEvent(weather));
+  }
+
+  void _onRetry() {
+    context.read<WeatherBloc>().add(GetWeatherByLocationEvent());
+  }
+
+  Future<void> _onRefresh() async {
+    context.read<WeatherBloc>().add(GetCurrentWeatherEvent());
   }
 }

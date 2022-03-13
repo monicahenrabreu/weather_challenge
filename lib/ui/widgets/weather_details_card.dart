@@ -3,7 +3,7 @@ import 'package:weather_challenge/data/models/weather_model.dart';
 import 'package:weather_challenge/ui/widgets/humidity_pressure_wind_widget.dart';
 
 class WeatherDetailsCard extends StatelessWidget {
-  const WeatherDetailsCard({Key? key, required this.weather}) : super(key: key);
+  const WeatherDetailsCard({Key? key, required this.weather,}) : super(key: key);
 
   final WeatherModel weather;
 
@@ -33,9 +33,9 @@ class WeatherDetailsCard extends StatelessWidget {
         ),
         Center(
             child: Text(
-          '12º',
-          style: Theme.of(context).textTheme.headline1,
-        )),
+              '${weather.currentTemp.toString()}º',
+              style: Theme.of(context).textTheme.headline1,
+            )),
         const Divider(
           height: 16,
         ),

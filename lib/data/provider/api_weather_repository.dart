@@ -1,5 +1,5 @@
 import 'package:weather_challenge/data/models/weather_model.dart';
-import 'package:weather_challenge/provider/api_weather_provider.dart';
+import 'package:weather_challenge/data/provider/api_weather_provider.dart';
 
 class ApiWeatherRepository {
   final _provider = ApiWeatherProvider();
