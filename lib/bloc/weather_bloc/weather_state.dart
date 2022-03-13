@@ -6,6 +6,7 @@ class WeatherState extends Equatable {
   final bool? isLoading;
   final WeatherModel? currentWeather;
   final Position? currentPosition;
+  final String? woeid;
   final List<WeatherModel>? weatherList;
   final bool? isCelsius;
 
@@ -13,6 +14,7 @@ class WeatherState extends Equatable {
     this.isLoading,
     this.currentWeather,
     this.currentPosition,
+    this.woeid,
     this.weatherList,
     this.isCelsius,
   });
@@ -21,6 +23,7 @@ class WeatherState extends Equatable {
     bool? isLoading,
     WeatherModel? currentWeather,
     Position? currentPosition,
+    String? woeid,
     List<WeatherModel>? weatherList,
     bool? isCelsius,
   }) {
@@ -28,6 +31,7 @@ class WeatherState extends Equatable {
         isLoading: isLoading ?? this.isLoading,
         currentWeather: currentWeather ?? this.currentWeather,
         currentPosition: currentPosition ?? this.currentPosition,
+        woeid: woeid ?? this.woeid,
         weatherList: weatherList ?? this.weatherList,
         isCelsius: isCelsius ?? this.isCelsius);
   }
@@ -39,25 +43,22 @@ class WeatherState extends Equatable {
         isLoading: isLoading ?? this.isLoading,
         currentWeather: currentWeather,
         currentPosition: currentPosition,
+        woeid: woeid,
         weatherList: weatherList,
         isCelsius: isCelsius);
-  }
-
-  WeatherLoadedState copyIsCelsius({
-    bool? isCelsius,
-  }) {
-    return WeatherLoadedState(isCelsius: isCelsius ?? this.isCelsius);
   }
 
   WeatherLoadedState copyLoaded({
     WeatherModel? currentWeather,
     List<WeatherModel>? weatherList,
     Position? currentPosition,
+    String? woeid,
     bool? isCelsius,
   }) {
     return WeatherLoadedState(
         currentWeather: currentWeather ?? this.currentWeather,
         currentPosition: currentPosition ?? this.currentPosition,
+        woeid: woeid ?? this.woeid,
         weatherList: weatherList ?? this.weatherList,
         isCelsius: isCelsius ?? this.isCelsius);
   }
@@ -67,8 +68,14 @@ class WeatherState extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [isLoading, currentWeather, weatherList, isCelsius];
+  List<Object?> get props => [
+        isLoading,
+        currentWeather,
+        currentPosition,
+        woeid,
+        weatherList,
+        isCelsius
+      ];
 }
 
 class WeatherInitialState extends WeatherState {
@@ -77,6 +84,7 @@ class WeatherInitialState extends WeatherState {
             isLoading: false,
             currentWeather: null,
             currentPosition: null,
+            woeid: null,
             weatherList: List.of([]),
             isCelsius: true);
 }
@@ -86,12 +94,14 @@ class WeatherLoadingState extends WeatherState {
       {bool? isLoading,
       WeatherModel? currentWeather,
       Position? currentPosition,
+      String? woeid,
       List<WeatherModel>? weatherList,
       bool? isCelsius})
       : super(
             isLoading: isLoading,
             currentWeather: currentWeather,
             currentPosition: currentPosition,
+            woeid: woeid,
             weatherList: weatherList,
             isCelsius: isCelsius);
 }
@@ -100,12 +110,14 @@ class WeatherLoadedState extends WeatherState {
   WeatherLoadedState(
       {WeatherModel? currentWeather,
       Position? currentPosition,
+      String? woeid,
       List<WeatherModel>? weatherList,
       bool? isCelsius})
       : super(
             isLoading: false,
             currentWeather: currentWeather,
             currentPosition: currentPosition,
+            woeid: woeid,
             weatherList: weatherList,
             isCelsius: isCelsius);
 }
@@ -116,6 +128,7 @@ class WeatherErrorState extends WeatherState {
             isLoading: false,
             currentWeather: null,
             currentPosition: null,
+            woeid: null,
             weatherList: List.of([]),
             isCelsius: true);
 }

@@ -6,8 +6,8 @@ abstract class WeatherEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class GetWeatherByLocationEvent extends WeatherEvent {
-  GetWeatherByLocationEvent();
+class GetWeatherListByLocation extends WeatherEvent {
+  GetWeatherListByLocation();
 
   @override
   List<Object?> get props => [];
@@ -29,8 +29,8 @@ class SwitchCurrentWeatherEvent extends WeatherEvent {
   List<Object?> get props => [weather];
 }
 
-class SwitchTemperatureEvent extends WeatherEvent {
-  SwitchTemperatureEvent();
+class SwitchTemperatureUnitEvent extends WeatherEvent {
+  SwitchTemperatureUnitEvent();
 
   @override
   List<Object?> get props => [];

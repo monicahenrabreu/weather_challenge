@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    context.read<WeatherBloc>().add(GetWeatherByLocationEvent());
+    context.read<WeatherBloc>().add(GetWeatherListByLocation());
     super.initState();
   }
 
@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onRetry() {
-    context.read<WeatherBloc>().add(GetWeatherByLocationEvent());
+    context.read<WeatherBloc>().add(GetWeatherListByLocation());
   }
 
   Future<void> _onRefresh() async {
@@ -56,6 +56,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onSwitchTemperature() {
-    context.read<WeatherBloc>().add(SwitchTemperatureEvent());
+    context.read<WeatherBloc>().add(SwitchTemperatureUnitEvent());
   }
 }

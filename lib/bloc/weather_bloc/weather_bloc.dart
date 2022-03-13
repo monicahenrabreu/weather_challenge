@@ -12,29 +12,31 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   WeatherBloc(
       {required this.locationProvider, required this.apiWeatherProvider})
       : super(WeatherInitialState()) {
-    on<GetWeatherByLocationEvent>(_onGetWeatherByLocationEvent);
+    on<GetWeatherListByLocation>(_onGetWeatherListByLocationEvent);
     on<GetCurrentWeatherEvent>(_onGetCurrentWeatherEvent);
     on<SwitchCurrentWeatherEvent>(_onSwitchCurrentWeatherEvent);
-    on<SwitchTemperatureEvent>(_onSwitchTemperatureEvent);
+    on<SwitchTemperatureUnitEvent>(_onSwitchTemperatureUnitEvent);
   }
 
-  void _onGetWeatherByLocationEvent(
-      GetWeatherByLocationEvent event, Emitter<WeatherState> emit) async {
+  void _onGetWeatherListByLocationEvent(
+      GetWeatherListByLocation event, Emitter<WeatherState> emit) async {
     emit(state.copyLoading(isLoading: true));
 
     Position? currentPosition = state.copyWith().currentPosition ??
         await locationProvider.getCurrentLocation();
 
     List<WeatherModel>? weatherList =
-        await apiWeatherProvider.getWeatherByLocation(currentPosition);
+        await apiWeatherProvider.getWeatherListByLocation(currentPosition);
 
     if (weatherList == null) {
       emit(state.copyError());
       return;
     }
 
+    String woied = state.woeid ?? weatherList.first.woeid;
+
     WeatherModel? currentWeather =
-        await apiWeatherProvider.getCurrentWeather(weatherList.first.woeid);
+        await apiWeatherProvider.getCurrentWeather(woied);
 
     if (currentWeather == null) {
       emit(state.copyError());
@@ -42,29 +44,29 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     }
 
     emit(state.copyLoaded(
-        currentWeather: currentWeather, weatherList: weatherList));
+        currentWeather: currentWeather,
+        currentPosition: currentPosition,
+        weatherList: weatherList,
+        woeid: woied));
   }
 
   void _onGetCurrentWeatherEvent(
       GetCurrentWeatherEvent event, Emitter<WeatherState> emit) async {
     emit(state.copyLoading(isLoading: true));
 
-    WeatherModel? currentWeather = state.copyWith().currentWeather;
-
-    if (currentWeather == null) {
-      emit(state.copyError());
-      return;
-    }
+    Position? position = state.copyWith().currentPosition;
+    String woeid = state.copyWith().woeid!;
 
     WeatherModel? newWeather =
-        await apiWeatherProvider.getCurrentWeather(currentWeather.woeid);
+        await apiWeatherProvider.getCurrentWeather(woeid);
 
     if (newWeather == null) {
       emit(state.copyError());
       return;
     }
 
-    emit(state.copyLoaded(currentWeather: newWeather));
+    emit(state.copyLoaded(
+        currentWeather: newWeather, currentPosition: position));
   }
 
   void _onSwitchCurrentWeatherEvent(
@@ -74,8 +76,8 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     emit(state.copyLoaded(currentWeather: weather));
   }
 
-  void _onSwitchTemperatureEvent(
-      SwitchTemperatureEvent event, Emitter<WeatherState> emit) async {
+  void _onSwitchTemperatureUnitEvent(
+      SwitchTemperatureUnitEvent event, Emitter<WeatherState> emit) async {
     emit(state.copyLoading(isLoading: true));
     bool? isCelsius = state.copyWith().isCelsius;
     emit(state.copyLoaded(isCelsius: !isCelsius!));
