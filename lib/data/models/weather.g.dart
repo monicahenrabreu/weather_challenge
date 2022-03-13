@@ -7,7 +7,6 @@ part of 'weather.dart';
 // **************************************************************************
 
 Weather _$WeatherFromJson(Map<String, dynamic> json) => Weather(
-      json['id'] as int?,
       json['weather_state_name'] as String?,
       json['weather_state_abbr'] as String?,
       json['wind_direction_compass'] as String?,
@@ -27,7 +26,6 @@ Weather _$WeatherFromJson(Map<String, dynamic> json) => Weather(
     );
 
 Map<String, dynamic> _$WeatherToJson(Weather instance) => <String, dynamic>{
-      'id': instance.id,
       'weather_state_name': instance.weather_state_name,
       'weather_state_abbr': instance.weather_state_abbr,
       'wind_direction_compass': instance.wind_direction_compass,

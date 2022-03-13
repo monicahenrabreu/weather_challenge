@@ -6,8 +6,9 @@ part 'location_woeid_weather.g.dart';
 @JsonSerializable()
 class LocationWoeidWeather {
   final List<Weather>? consolidated_weather;
+  final int? woeid;
 
-  LocationWoeidWeather(this.consolidated_weather);
+  LocationWoeidWeather(this.consolidated_weather, this.woeid);
 
   factory LocationWoeidWeather.fromJson(Map<String, dynamic> json) =>
       _$LocationWoeidWeatherFromJson(json);

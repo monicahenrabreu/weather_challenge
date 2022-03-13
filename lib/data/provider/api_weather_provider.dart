@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:geolocator/geolocator.dart';
 import 'package:weather_challenge/configs/constants.dart';
 import 'package:weather_challenge/data/models/location_weather.dart';
 import 'package:weather_challenge/data/models/location_woeid_weather.dart';
@@ -8,9 +9,11 @@ import 'package:weather_challenge/data/models/weather_model.dart';
 import 'package:weather_challenge/utils/utils.dart';
 
 class ApiWeatherProvider {
-  Future<List<WeatherModel>?>? getWeatherByLocation() async {
-    final Uri _url = Uri.https(Constants.API_WEATHER_URL,
-        Constants.SEARCH_LOCATION, {Constants.LAT_LONG: '36.96,-122.02'});
+  Future<List<WeatherModel>?>? getWeatherByLocation(Position position) async {
+    final Uri _url = Uri.https(
+        Constants.API_WEATHER_URL,
+        Constants.SEARCH_LOCATION,
+        {Constants.LAT_LONG: '${position.latitude},${position.longitude}'});
 
     var response = await http.get(_url);
 
@@ -47,6 +50,7 @@ class ApiWeatherProvider {
                 convertCelsiusToFahrenheit(weather.max_temp!);
 
             return WeatherModel(
+              woeid: locationWoeidWeather.woeid.toString(),
               weatherState: weather.weather_state_name,
               weatherStateImage: weather.weather_state_abbr,
               dateAbbr: abbrWeekDay,
@@ -74,11 +78,11 @@ class ApiWeatherProvider {
     return null;
   }
 
-  Future<WeatherModel?>? getCurrentWeather() async {
+  Future<WeatherModel?>? getCurrentWeather(String woeid) async {
     final String formattedDay = dateFormatted(DateTime.now());
 
     final Uri _urlLocation = Uri.https(Constants.API_WEATHER_URL,
-        '${Constants.LOCATION}44418/${formattedDay}');
+        '${Constants.LOCATION}$woeid/$formattedDay');
 
     var responseLocation = await http.get(_urlLocation);
 
@@ -94,13 +98,14 @@ class ApiWeatherProvider {
           configureDate: ConfigureDate.weekAbbrDay);
 
       double currentTempFareheit =
-      convertCelsiusToFahrenheit(locationWeathers.the_temp!);
+          convertCelsiusToFahrenheit(locationWeathers.the_temp!);
       double minTempFareheit =
-      convertCelsiusToFahrenheit(locationWeathers.min_temp!);
+          convertCelsiusToFahrenheit(locationWeathers.min_temp!);
       double maxTempFareheit =
-      convertCelsiusToFahrenheit(locationWeathers.max_temp!);
+          convertCelsiusToFahrenheit(locationWeathers.max_temp!);
 
       WeatherModel? weatherModel = WeatherModel(
+        woeid: woeid,
         weatherState: locationWeathers.weather_state_name,
         weatherStateImage: locationWeathers.weather_state_abbr,
         dateAbbr: abbrWeekDay,

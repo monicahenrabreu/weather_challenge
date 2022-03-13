@@ -1,4 +1,5 @@
 class WeatherModel {
+  final String woeid;
   final String? weatherState;
   final String? weatherStateImage;
   final String? date;
@@ -14,7 +15,8 @@ class WeatherModel {
   final double? humidity;
 
   WeatherModel(
-      {this.weatherState,
+      {required this.woeid,
+      this.weatherState,
       this.weatherStateImage,
       this.date,
       this.dateAbbr,

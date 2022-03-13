@@ -1,12 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:weather_challenge/data/models/weather_model.dart';
 import 'package:weather_challenge/data/provider/api_weather_provider.dart';
+import 'package:weather_challenge/data/provider/location_provider.dart';
 import 'bloc.dart';
 
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
-  final ApiWeatherProvider provider;
+  final LocationProvider locationProvider;
+  final ApiWeatherProvider apiWeatherProvider;
 
-  WeatherBloc(this.provider) : super(WeatherInitialState()) {
+  WeatherBloc(
+      {required this.locationProvider, required this.apiWeatherProvider})
+      : super(WeatherInitialState()) {
     on<GetWeatherByLocationEvent>(_onGetWeatherByLocationEvent);
     on<GetCurrentWeatherEvent>(_onGetCurrentWeatherEvent);
     on<SwitchCurrentWeatherEvent>(_onSwitchCurrentWeatherEvent);
@@ -17,14 +22,19 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       GetWeatherByLocationEvent event, Emitter<WeatherState> emit) async {
     emit(state.copyLoading(isLoading: true));
 
-    List<WeatherModel>? weatherList = await provider.getWeatherByLocation();
+    Position? currentPosition = state.copyWith().currentPosition ??
+        await locationProvider.getCurrentLocation();
+
+    List<WeatherModel>? weatherList =
+        await apiWeatherProvider.getWeatherByLocation(currentPosition);
 
     if (weatherList == null) {
       emit(state.copyError());
       return;
     }
 
-    WeatherModel? currentWeather = await provider.getCurrentWeather();
+    WeatherModel? currentWeather =
+        await apiWeatherProvider.getCurrentWeather(weatherList.first.woeid);
 
     if (currentWeather == null) {
       emit(state.copyError());
@@ -38,22 +48,29 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   void _onGetCurrentWeatherEvent(
       GetCurrentWeatherEvent event, Emitter<WeatherState> emit) async {
     emit(state.copyLoading(isLoading: true));
-    WeatherModel? currentWeather = await provider.getCurrentWeather();
+
+    WeatherModel? currentWeather = state.copyWith().currentWeather;
 
     if (currentWeather == null) {
       emit(state.copyError());
       return;
     }
 
-    emit(state.copyLoaded(currentWeather: currentWeather));
+    WeatherModel? newWeather =
+        await apiWeatherProvider.getCurrentWeather(currentWeather.woeid);
+
+    if (newWeather == null) {
+      emit(state.copyError());
+      return;
+    }
+
+    emit(state.copyLoaded(currentWeather: newWeather));
   }
 
   void _onSwitchCurrentWeatherEvent(
       SwitchCurrentWeatherEvent event, Emitter<WeatherState> emit) async {
     emit(state.copyLoading(isLoading: true));
-
     WeatherModel weather = event.weather;
-
     emit(state.copyLoaded(currentWeather: weather));
   }
 

@@ -4,7 +4,6 @@ part 'weather.g.dart';
 
 @JsonSerializable()
 class Weather {
-  final int? id;
   final String? weather_state_name;
   final String? weather_state_abbr;
   final String? wind_direction_compass;
@@ -21,7 +20,6 @@ class Weather {
   final double? predictability;
 
   Weather(
-      this.id,
       this.weather_state_name,
       this.weather_state_abbr,
       this.wind_direction_compass,

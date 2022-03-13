@@ -12,10 +12,12 @@ LocationWoeidWeather _$LocationWoeidWeatherFromJson(
       (json['consolidated_weather'] as List<dynamic>?)
           ?.map((e) => Weather.fromJson(e as Map<String, dynamic>))
           .toList(),
+      json['woeid'] as int?,
     );
 
 Map<String, dynamic> _$LocationWoeidWeatherToJson(
         LocationWoeidWeather instance) =>
     <String, dynamic>{
       'consolidated_weather': instance.consolidated_weather,
+      'woeid': instance.woeid,
     };
