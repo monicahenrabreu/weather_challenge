@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:weather_challenge/data/models/weather_model.dart';
 import 'package:weather_challenge/ui/widgets/weather_carousel.dart';
 import 'package:weather_challenge/ui/widgets/weather_details_card.dart';
@@ -35,21 +34,19 @@ class WeatherWidget extends StatelessWidget {
               physics: const AlwaysScrollableScrollPhysics(),
               child: ConstrainedBox(
                 constraints:
-                BoxConstraints(minHeight: viewportConstraints.maxHeight),
+                    BoxConstraints(minHeight: viewportConstraints.maxHeight),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     WeatherDetailsCard(
-                        weather: currentWeather, isCelsius: isCelsius),
+                      weather: currentWeather,
+                      isCelsius: isCelsius,
+                      onSwitchTemperature: onSwitchTemperature,
+                    ),
                     WeatherCarousel(
                         weatherList: weatherList,
                         onTap: onTap,
                         isCelsius: isCelsius),
-                    MaterialButton(
-                        onPressed: onSwitchTemperature,
-                        child: isCelsius
-                            ? Text(AppLocalizations.of(context)!.celsius)
-                            : Text(AppLocalizations.of(context)!.fahrenheit)),
                   ],
                 ),
               ),
