@@ -1,0 +1,42 @@
+{
+  "celsius": "ºC",
+  "@celsius": {
+    "description": "Celsius degree"
+  },
+  "fahrenheit": "ºF",
+  "@fahrenheit": {
+    "description": "Fahrenheit degree"
+  },
+  "humidity": "Humidity: ",
+  "@humidity": {
+    "description": "Humidity title"
+  },
+  "humidityUnit": "%",
+  "@humidityUnit": {
+    "description": "Humidity unit"
+  },
+  "pressure": "Pressure: ",
+  "@pressure": {
+    "description": "Pressure title"
+  },
+  "pressureUnit": "hPa",
+  "@pressureUnit": {
+    "description": "Pressure unit"
+  },
+  "wind": "Wind: ",
+  "@wind": {
+    "description": "Wind title"
+  },
+  "windUnit": "Km/h",
+  "@windUnit": {
+    "description": "Wind unit"
+  },
+  "error": "Error! Please try again!",
+  "@error": {
+    "description": "Error message"
+  },
+  "errorTryAgain": "Retry",
+  "@errorTryAgain": {
+    "description": "Inform the user that he can click to retry"
+  }
+}
