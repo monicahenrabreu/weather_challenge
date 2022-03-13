@@ -25,7 +25,7 @@ class WeatherWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: LayoutBuilder(builder:
             (BuildContext context, BoxConstraints viewportConstraints) {
           return RefreshIndicator(
