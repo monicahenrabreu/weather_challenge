@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:weather_challenge/configs/constants.dart';
 import 'package:weather_challenge/data/models/weather_model.dart';
 import 'package:weather_challenge/ui/widgets/humidity_pressure_wind_widget.dart';
 
@@ -27,7 +29,10 @@ class WeatherDetailsCard extends StatelessWidget {
         const Divider(
           height: 16,
         ),
-        const Icon(Icons.ac_unit),
+        SvgPicture.network(
+          '${Constants.urlImage}${weather.weatherStateImage}${Constants.imageFormat}',
+          height: 200,
+        ),
         const Divider(
           height: 16,
         ),

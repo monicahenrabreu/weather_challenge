@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:weather_challenge/configs/constants.dart';
 import 'package:weather_challenge/data/models/weather_model.dart';
 
 class WeatherCard extends StatelessWidget {
@@ -28,7 +30,10 @@ class WeatherCard extends StatelessWidget {
               weather.dateAbbr!,
               style: Theme.of(context).textTheme.bodyText1,
             ),
-            const Icon(Icons.ac_unit),
+            SvgPicture.network(
+              '${Constants.urlImage}${weather.weatherStateImage}${Constants.imageFormat}',
+              height: 60,
+            ),
             Text(
               '${weather.minTemp.toString()}º / ${weather.maxTemp.toString()}º',
               style: Theme.of(context).textTheme.bodyText1,
