@@ -1,16 +1,19 @@
-# weather_challenge
+# Weather Challenge
 
-A new Flutter project.
+PS: In order to switch unit temperature, please click on the unit temperature!
 
-## Getting Started
+## What is used
+### Localization
 
-This project is a starting point for a Flutter application.
+This project generates localized messages based on arb files found in
+the `lib/localization` directory.
 
-A few resources to get you started if this is your first Flutter project:
+Right now, only the english language is available.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+To support additional languages, please visit the tutorial on
+[Internationalizing Flutter
+apps](https://flutter.dev/docs/development/accessibility-and-localization/internationalization)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### State Management
+
+In order to manage the state inside this app is used the [flutter_bloc](https://pub.dev/packages/flutter_bloc).
