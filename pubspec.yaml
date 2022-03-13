@@ -26,6 +26,7 @@ dev_dependencies:
   equatable: ^2.0.3
   flutter_svg: ^1.0.3
   geolocator: ^8.2.0
+  flutter_staggered_grid_view: ^0.6.1
 
 flutter:
   uses-material-design: true

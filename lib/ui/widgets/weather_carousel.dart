@@ -18,7 +18,7 @@ class WeatherCarousel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 20.0),
-      height: 200.0,
+      height: 200,
       child: ListView.separated(
           scrollDirection: Axis.horizontal,
           shrinkWrap: false,
