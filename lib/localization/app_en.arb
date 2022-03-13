@@ -38,5 +38,9 @@
   "errorTryAgain": "Retry",
   "@errorTryAgain": {
     "description": "Inform the user that he can click to retry"
+  },
+  "locationError": "Please give the location permissions!",
+  "@locationError": {
+    "description": "Inform the user that he needs to give the location permissions in order to use this app"
   }
 }

@@ -67,6 +67,10 @@ class WeatherState extends Equatable {
     return WeatherErrorState();
   }
 
+  WeatherLocationErrorState copyLocationError() {
+    return WeatherLocationErrorState();
+  }
+
   @override
   List<Object?> get props => [
         isLoading,
@@ -131,4 +135,15 @@ class WeatherErrorState extends WeatherState {
             woeid: null,
             weatherList: List.of([]),
             isCelsius: true);
+}
+
+class WeatherLocationErrorState extends WeatherState {
+  WeatherLocationErrorState()
+      : super(
+      isLoading: false,
+      currentWeather: null,
+      currentPosition: null,
+      woeid: null,
+      weatherList: List.of([]),
+      isCelsius: true);
 }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_challenge/bloc/weather_bloc/bloc.dart';
 import 'package:weather_challenge/data/models/weather_model.dart';
 import 'package:weather_challenge/ui/widgets/weather_error_widget.dart';
+import 'package:weather_challenge/ui/widgets/weather_location_error_widget.dart';
 import 'package:weather_challenge/ui/widgets/weather_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,6 +27,8 @@ class _HomePageState extends State<HomePage> {
         builder: (context, state) {
           if (state is WeatherLoadingState || state is WeatherInitialState) {
             return const Center(child: CircularProgressIndicator());
+          } else if (state is WeatherLocationErrorState) {
+            return WeatherLocationErrorWidget();
           } else if (state is WeatherErrorState) {
             return WeatherErrorWidget(onRetry: _onRetry);
           }

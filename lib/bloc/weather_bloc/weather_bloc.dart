@@ -22,8 +22,16 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       GetWeatherListByLocation event, Emitter<WeatherState> emit) async {
     emit(state.copyLoading(isLoading: true));
 
-    Position? currentPosition = state.copyWith().currentPosition ??
-        await locationProvider.getCurrentLocation();
+    Position? currentPosition;
+
+    try {
+      currentPosition = state.copyWith().currentPosition ??
+          await locationProvider.getCurrentLocation();
+    } catch (error) {
+      print('Unknown exception: $error');
+      emit(state.copyLocationError());
+      return;
+    }
 
     List<WeatherModel>? weatherList =
         await apiWeatherProvider.getWeatherListByLocation(currentPosition);
