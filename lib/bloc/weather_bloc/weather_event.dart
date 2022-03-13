@@ -28,3 +28,10 @@ class SwitchCurrentWeatherEvent extends WeatherEvent {
   @override
   List<Object?> get props => [weather];
 }
+
+class SwitchTemperatureEvent extends WeatherEvent {
+  SwitchTemperatureEvent();
+
+  @override
+  List<Object?> get props => [];
+}

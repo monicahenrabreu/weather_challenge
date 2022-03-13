@@ -8,13 +8,9 @@ import 'package:weather_challenge/data/models/weather_model.dart';
 import 'package:weather_challenge/utils/utils.dart';
 
 class ApiWeatherProvider {
-
   Future<List<WeatherModel>?>? getWeatherByLocation() async {
-
-    final Uri _url = Uri.https(
-        Constants.API_WEATHER_URL,
-        Constants.SEARCH_LOCATION,
-        {Constants.LAT_LONG: '36.96,-122.02'});
+    final Uri _url = Uri.https(Constants.API_WEATHER_URL,
+        Constants.SEARCH_LOCATION, {Constants.LAT_LONG: '36.96,-122.02'});
 
     var response = await http.get(_url);
 
@@ -33,7 +29,8 @@ class ApiWeatherProvider {
         if (responseLocation.statusCode == 200) {
           dynamic bodyLocation = jsonDecode(responseLocation.body);
 
-          LocationWoeidWeather locationWoeidWeather = LocationWoeidWeather.fromJson(bodyLocation);
+          LocationWoeidWeather locationWoeidWeather =
+              LocationWoeidWeather.fromJson(bodyLocation);
 
           List<WeatherModel>? weatherList =
               locationWoeidWeather.consolidated_weather?.map((Weather weather) {
@@ -42,14 +39,24 @@ class ApiWeatherProvider {
                 day: weather.applicable_date!,
                 configureDate: ConfigureDate.weekAbbrDay);
 
+            double currentTempFareheit =
+                convertCelsiusToFahrenheit(weather.the_temp!);
+            double minTempFareheit =
+                convertCelsiusToFahrenheit(weather.min_temp!);
+            double maxTempFareheit =
+                convertCelsiusToFahrenheit(weather.max_temp!);
+
             return WeatherModel(
               weatherState: weather.weather_state_name,
               weatherStateImage: weather.weather_state_abbr,
               dateAbbr: abbrWeekDay,
               date: weekDay,
               minTemp: weather.min_temp?.round(),
+              minTempFahreneit: minTempFareheit.round(),
               maxTemp: weather.max_temp?.round(),
+              maxTempFahreneit: maxTempFareheit.round(),
               currentTemp: weather.the_temp?.round(),
+              currentTempFahreneit: currentTempFareheit.round(),
               windSpeed: weather.wind_speed,
               airPressure: weather.air_pressure,
               humidity: weather.humidity,
@@ -68,7 +75,6 @@ class ApiWeatherProvider {
   }
 
   Future<WeatherModel?>? getCurrentWeather() async {
-
     final String formattedDay = dateFormatted(DateTime.now());
 
     final Uri _urlLocation = Uri.https(Constants.API_WEATHER_URL,
@@ -87,14 +93,24 @@ class ApiWeatherProvider {
           day: locationWeathers.applicable_date!,
           configureDate: ConfigureDate.weekAbbrDay);
 
+      double currentTempFareheit =
+      convertCelsiusToFahrenheit(locationWeathers.the_temp!);
+      double minTempFareheit =
+      convertCelsiusToFahrenheit(locationWeathers.min_temp!);
+      double maxTempFareheit =
+      convertCelsiusToFahrenheit(locationWeathers.max_temp!);
+
       WeatherModel? weatherModel = WeatherModel(
         weatherState: locationWeathers.weather_state_name,
         weatherStateImage: locationWeathers.weather_state_abbr,
         dateAbbr: abbrWeekDay,
         date: weekDay,
         minTemp: locationWeathers.min_temp?.round(),
+        minTempFahreneit: minTempFareheit.round(),
         maxTemp: locationWeathers.max_temp?.round(),
+        maxTempFahreneit: maxTempFareheit.round(),
         currentTemp: locationWeathers.the_temp?.round(),
+        currentTempFahreneit: currentTempFareheit.round(),
         windSpeed: locationWeathers.wind_speed,
         airPressure: locationWeathers.air_pressure,
         humidity: locationWeathers.humidity,

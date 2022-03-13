@@ -8,10 +8,12 @@ class WeatherCard extends StatelessWidget {
     Key? key,
     required this.weather,
     required this.onTap,
+    required this.isCelsius,
   }) : super(key: key);
 
   final WeatherModel weather;
   final void Function() onTap;
+  final bool isCelsius;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,9 @@ class WeatherCard extends StatelessWidget {
               height: 60,
             ),
             Text(
-              '${weather.minTemp.toString()}º / ${weather.maxTemp.toString()}º',
+              isCelsius
+                  ? '${weather.minTemp.toString()}º / ${weather.maxTemp.toString()}º'
+                  : '${weather.minTempFahreneit.toString()}º / ${weather.maxTempFahreneit.toString()}º',
               style: Theme.of(context).textTheme.bodyText1,
             ),
           ],

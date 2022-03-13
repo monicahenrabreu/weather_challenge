@@ -10,6 +10,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     on<GetWeatherByLocationEvent>(_onGetWeatherByLocationEvent);
     on<GetCurrentWeatherEvent>(_onGetCurrentWeatherEvent);
     on<SwitchCurrentWeatherEvent>(_onSwitchCurrentWeatherEvent);
+    on<SwitchTemperatureEvent>(_onSwitchTemperatureEvent);
   }
 
   void _onGetWeatherByLocationEvent(
@@ -54,5 +55,12 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     WeatherModel weather = event.weather;
 
     emit(state.copyLoaded(currentWeather: weather));
+  }
+
+  void _onSwitchTemperatureEvent(
+      SwitchTemperatureEvent event, Emitter<WeatherState> emit) async {
+    emit(state.copyLoading(isLoading: true));
+    bool? isCelsius = state.copyWith().isCelsius;
+    emit(state.copyLoaded(isCelsius: !isCelsius!));
   }
 }

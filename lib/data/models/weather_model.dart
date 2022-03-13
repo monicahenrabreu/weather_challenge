@@ -4,8 +4,11 @@ class WeatherModel {
   final String? date;
   final String? dateAbbr;
   final int? minTemp;
+  final int? minTempFahreneit;
   final int? maxTemp;
+  final int? currentTempFahreneit;
   final int? currentTemp;
+  final int? maxTempFahreneit;
   final double? windSpeed;
   final double? airPressure;
   final double? humidity;
@@ -16,8 +19,11 @@ class WeatherModel {
       this.date,
       this.dateAbbr,
       this.minTemp,
+      this.minTempFahreneit,
       this.maxTemp,
+      this.maxTempFahreneit,
       this.currentTemp,
+      this.currentTempFahreneit,
       this.windSpeed,
       this.airPressure,
       this.humidity});

@@ -33,8 +33,10 @@ class _HomePageState extends State<HomePage> {
           return WeatherWidget(
             currentWeather: weatherState.currentWeather!,
             weatherList: weatherState.weatherList!,
+            isCelsius: weatherState.isCelsius!,
             onRefresh: _onRefresh,
             onTap: _onTap,
+            onSwitchTemperature: _onSwitchTemperature,
           );
         },
       ),
@@ -51,5 +53,9 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _onRefresh() async {
     context.read<WeatherBloc>().add(GetCurrentWeatherEvent());
+  }
+
+  void _onSwitchTemperature() {
+    context.read<WeatherBloc>().add(SwitchTemperatureEvent());
   }
 }
