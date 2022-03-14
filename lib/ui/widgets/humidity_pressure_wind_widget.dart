@@ -27,7 +27,7 @@ class HumidityPressureWindWidget extends StatelessWidget {
           ],
         )),
         const SizedBox(
-          height: 14,
+          height: 12,
         ),
         Text.rich(TextSpan(
           text: AppLocalizations.of(context)!.pressure,
@@ -41,7 +41,7 @@ class HumidityPressureWindWidget extends StatelessWidget {
           ],
         )),
         const SizedBox(
-          height: 14,
+          height: 12,
         ),
         Text.rich(TextSpan(
           text: AppLocalizations.of(context)!.wind,

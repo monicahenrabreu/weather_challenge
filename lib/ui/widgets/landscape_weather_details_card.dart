@@ -51,18 +51,18 @@ class LandscapeWeatherDetailsCard extends StatelessWidget {
               isCelsius
                   ? weather.currentTemp.toString()
                   : weather.currentTempFahreneit.toString(),
-              style: Theme.of(context).textTheme.headline1,
+              style: Theme.of(context).textTheme.headline2,
             ),
             MaterialButton(
                 onPressed: onSwitchTemperature,
                 child: isCelsius
                     ? Text(
                         AppLocalizations.of(context)!.celsius,
-                        style: Theme.of(context).textTheme.headline1,
+                        style: Theme.of(context).textTheme.headline2,
                       )
                     : Text(
                         AppLocalizations.of(context)!.fahrenheit,
-                        style: Theme.of(context).textTheme.headline1,
+                        style: Theme.of(context).textTheme.headline2,
                       )),
           ],
         ),
